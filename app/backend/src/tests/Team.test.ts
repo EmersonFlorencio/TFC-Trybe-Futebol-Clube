@@ -7,6 +7,7 @@ import { app } from '../app';
 import TeamsModel from '../database/models/TeamsModel';
 import { Model } from 'sequelize';
 import TeamService from '../services/TeamServices';
+import { mockTeams, mockTeamId } from './mocks/TeamsMock';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -16,27 +17,6 @@ describe('teste referente a rota "teams', () => {
     sinon.restore();
  });
 
- const mockTeams = [
-    {
-      id: 1,
-      teamName: "Avaí/Kindermann"
-    },
-    {
-      id: 2,
-      teamName: "Bahia"
-    },
-    {
-      id: 3,
-      teamName: "Botafogo"
-    },
-    {
-      id: 4,
-      teamName: "Corinthians"
-    },
-  ]
-
-  const mockTeamId =  {id: 4, teamName: "Corinthians" }
-
   console.log(TeamsModel)
 
   it('Consegue retornar os times da rota "team"', async () => {
@@ -44,6 +24,9 @@ describe('teste referente a rota "teams', () => {
     const service = new TeamService();
     const results = await service.getAll()
 
+    const httpStatus = await chai.request(app).get('/teams');
+
+    expect(httpStatus.status).to.be.equal(200);
     expect(results).to.be.deep.equal(mockTeams);
   });
 
@@ -52,6 +35,9 @@ describe('teste referente a rota "teams', () => {
     const service = new TeamService();
     const result = await service.getById(mockTeamId.id)
 
-    expect(result).to.be.deep.equal(mockTeamId)
+    const httpStatus = await chai.request(app).get('/teams/4');
+
+    expect(httpStatus.status).to.be.equal(200);
+    expect(result).to.be.deep.equal(mockTeamId);
   });
 });
