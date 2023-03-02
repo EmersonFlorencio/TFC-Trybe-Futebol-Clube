@@ -9,13 +9,15 @@ class UserController {
   }
 
   async login(req: Request, res: Response) {
-    const response = await this.service.verifyLogin(req.body);
+    const { status, message } = await this.service.verifyLogin(req.body);
 
-    if (response.includes('Invalid')) {
-      return res.status(400).json({ message: response });
+    console.log('teste controller', message);
+
+    if (status === 401) {
+      return res.status(status).json({ message });
     }
 
-    return res.status(200).json({ token: response });
+    return res.status(status).json({ token: message });
   }
 }
 
