@@ -14,12 +14,8 @@ class UserService {
   }
 
   async verifyLogin(body: ILogin): Promise<IResponse> {
-    console.log('console do body: ', body);
     const verifyEmail = this._emailRegex.test(body.email);
-    console.log('regex: ', verifyEmail);
     const findUser = await this.model.findOne({ where: { email: body.email } });
-
-    console.log('Teste email: ', findUser?.email);
 
     if (findUser?.email === undefined || !verifyEmail) {
       return { status: 401, message: 'Invalid email or password' };

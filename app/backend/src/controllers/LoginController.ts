@@ -11,8 +11,6 @@ class UserController {
   async login(req: Request, res: Response) {
     const { status, message } = await this.service.verifyLogin(req.body);
 
-    console.log('teste controller', message);
-
     if (status === 401) {
       return res.status(status).json({ message });
     }
