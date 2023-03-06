@@ -20,6 +20,14 @@ class MatchesController {
 
     return res.status(status).json(message);
   }
+
+  updateStatus = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const { status, message } = await this._service.updatefinishedStatus(Number(id));
+
+    return res.status(status).json({ message });
+  };
 }
 
 export default MatchesController;

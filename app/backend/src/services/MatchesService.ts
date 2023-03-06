@@ -34,6 +34,11 @@ class MatchesService {
 
     return { status: 200, message: result };
   }
+
+  async updatefinishedStatus(id: number): Promise<IResponse> {
+    await this.model.update({ inProgress: false }, { where: { id } });
+    return { status: 200, message: 'Finished' };
+  }
 }
 
 export default MatchesService;
