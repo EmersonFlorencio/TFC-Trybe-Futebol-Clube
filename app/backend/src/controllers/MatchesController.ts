@@ -9,8 +9,16 @@ class MatchesController {
   }
 
   async getAllMatches(req: Request, res: Response) {
-    const matches = await this._service.getAllMatches();
-    return res.status(200).json(matches);
+    const { inProgress } = req.query;
+
+    if (!inProgress) {
+      const { status, message } = await this._service.getAllMatches();
+      return res.status(status).json(message);
+    }
+
+    const { status, message } = await this._service.getInProgress(inProgress as string);
+
+    return res.status(status).json(message);
   }
 }
 
