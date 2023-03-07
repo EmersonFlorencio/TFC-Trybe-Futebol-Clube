@@ -2,6 +2,7 @@ import { ModelStatic } from 'sequelize';
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
 import IResponse from '../interfaces/IResponse';
+import IUpdateGoals from '../interfaces/IUpdateGoals';
 
 class MatchesService {
   protected model: ModelStatic<MatchesModel> = MatchesModel;
@@ -38,6 +39,14 @@ class MatchesService {
   async updatefinishedStatus(id: number): Promise<IResponse> {
     await this.model.update({ inProgress: false }, { where: { id } });
     return { status: 200, message: 'Finished' };
+  }
+
+  async updateMatchesGoals(id: number, body: IUpdateGoals): Promise<IResponse> {
+    const { homeTeamGoals, awayTeamGoals } = body;
+
+    await this.model.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+
+    return { status: 200, message: 'Match updated successfully!' };
   }
 }
 
