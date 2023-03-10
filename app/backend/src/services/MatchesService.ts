@@ -56,9 +56,6 @@ class MatchesService {
     const verifyHomeTeam = await this.model.findByPk(homeTeamId);
     const verifyAwayTeam = await this.model.findByPk(awayTeamId);
 
-    console.log('teste home time', verifyHomeTeam);
-    console.log('teste away time', verifyAwayTeam);
-
     if (!verifyHomeTeam) {
       return { status: 404, message: 'There is no team with such id!' };
     }
